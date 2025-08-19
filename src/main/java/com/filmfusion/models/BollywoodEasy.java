@@ -33,13 +33,13 @@ public class BollywoodEasy {
 	private Character movie_FirstLetter;
 	
 	@Convert(converter = ListToJsonConverter.class)
-	@Column(columnDefinition = "jsonb")
+	@Column(columnDefinition = "TEXT")
 	private List<String> actor_option;
 	@Convert(converter = ListToJsonConverter.class)
-	@Column(columnDefinition = "jsonb")
+	@Column(columnDefinition = "TEXT")
 	private List<String> actress_option;
 	@Convert(converter = ListToJsonConverter.class)
-	@Column(columnDefinition = "jsonb")
+	@Column(columnDefinition = "TEXT")
 	private List<String> movie_option;
 	
 	private String correctActor;
