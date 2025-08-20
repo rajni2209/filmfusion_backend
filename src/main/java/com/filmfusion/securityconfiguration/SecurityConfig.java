@@ -18,7 +18,7 @@ public class SecurityConfig {
 		httpSecurity
 					.csrf(csrf->csrf.disable())
 					.authorizeHttpRequests(auth->auth
-							.requestMatchers(HttpMethod.GET ,"/bollywood/**" , "/", "/index.html", "/css/**").permitAll()
+							.requestMatchers(HttpMethod.GET ,"/bollywood/**", "/tollywood/**" , "/kollywood/**" , "/", "/index.html", "/css/**").permitAll()
 							.anyRequest().authenticated()
 							)
 					.httpBasic();
