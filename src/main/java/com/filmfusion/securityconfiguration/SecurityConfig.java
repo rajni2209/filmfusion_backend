@@ -16,19 +16,19 @@ import java.util.List;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
-    
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
                 .csrf(csrf -> csrf.disable())
-                .cors(cors -> cors.configurationSource(corsConfigurationSource())) 
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.GET,
-                                "/bollywood/**", 
-                                "/tollywood/**", 
+                                "/bollywood/**",
+                                "/tollywood/**",
                                 "/kollywood/**",
-                                "/", 
-                                "/index.html", 
+                                "/",
+                                "/index.html",
                                 "/css/**").permitAll()
                         .anyRequest().authenticated()
                 )
@@ -40,12 +40,17 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-        
-        // In development, allow everything
-        config.setAllowedOrigins(List.of("http://localhost:3000", "http://127.0.0.1:3000")); // frontend URL
+
+        // ✅ Add allowed frontend origins
+        config.setAllowedOrigins(List.of(
+                "http://localhost:3000",
+                "http://127.0.0.1:3000",
+                "https://filmfusion-83sp.onrender.com"
+        ));
+
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(List.of("*"));
-        config.setAllowCredentials(true); // allow cookies/auth headers if needed
+        config.setAllowCredentials(true); // required if frontend uses cookies/auth headers
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", config);
