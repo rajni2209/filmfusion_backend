@@ -36,21 +36,19 @@ public class SecurityConfig {
         return httpSecurity.build();
     }
 
-    // ✅ Global CORS configuration
+    // ✅ Allow all origins (*)
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
 
-        // ✅ Add allowed frontend origins
-        config.setAllowedOrigins(List.of(
-                "http://localhost:3000",
-                "http://127.0.0.1:3000",
-                "https://filmfusion-83sp.onrender.com"
-        ));
+        // Allow ALL origins
+        config.setAllowedOriginPatterns(List.of("*"));
 
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(List.of("*"));
-        config.setAllowCredentials(true); // required if frontend uses cookies/auth headers
+
+        // If you don’t need cookies/Authorization headers, keep false
+        config.setAllowCredentials(false);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", config);
