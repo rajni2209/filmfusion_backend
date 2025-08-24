@@ -30,8 +30,8 @@ public class KollywoodHardController {
 	}
 	
 	@PostMapping
-	public ResponseEntity<KollywoodHard> saveKollywoodHard(@RequestBody KollywoodHard kollywoodHard) {
-		KollywoodHard saveBollywoodHard = kollywoodHardRepository.save(kollywoodHard);
+	public ResponseEntity<List<KollywoodHard>> saveKollywoodHard(@RequestBody List<KollywoodHard> kollywoodHard) {
+		List<KollywoodHard> saveBollywoodHard = kollywoodHardRepository.saveAll(kollywoodHard);
 		 return ResponseEntity.status(HttpStatus.CREATED).body(saveBollywoodHard);
 	}
 	
