@@ -29,8 +29,8 @@ public class TollywoodMediumController {
 	}
 	
 	@PostMapping
-	public ResponseEntity<TollywoodMedium> saveTollywoodMedium(@RequestBody TollywoodMedium tollywoodMedium) {
-		 TollywoodMedium saveTollywoodMedium = tollywoodMediumRepository.save(tollywoodMedium);
+	public ResponseEntity<List<TollywoodMedium>> saveTollywoodMedium(@RequestBody List<TollywoodMedium> tollywoodMedium) {
+		 List<TollywoodMedium> saveTollywoodMedium = tollywoodMediumRepository.saveAll(tollywoodMedium);
 		 return ResponseEntity.status(HttpStatus.CREATED).body(saveTollywoodMedium);
 	}
 	

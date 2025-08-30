@@ -29,8 +29,8 @@ public class TollywoodEasyController {
 	}
 	
 	@PostMapping
-	public ResponseEntity<TollywoodEasy> saveTollywoodEasy(@RequestBody TollywoodEasy tollywoodEasy) {
-		TollywoodEasy saveTollywoodEasy = tollywoodEasyRepository.save(tollywoodEasy);
+	public ResponseEntity<List<TollywoodEasy>> saveTollywoodEasy(@RequestBody List<TollywoodEasy> tollywoodEasy) {
+		 List<TollywoodEasy> saveTollywoodEasy = tollywoodEasyRepository.saveAll(tollywoodEasy);
 		 return ResponseEntity.status(HttpStatus.CREATED).body(saveTollywoodEasy);
 	}
 	

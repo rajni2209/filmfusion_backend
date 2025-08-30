@@ -29,8 +29,8 @@ public class BollywoodHardController {
 	}
 	
 	@PostMapping
-	public ResponseEntity<BollywoodHard> saveBollywoodHard(@RequestBody BollywoodHard bollywoodHard) {
-		BollywoodHard saveBollywoodHard = bollywoodHardRepository.save(bollywoodHard);
+	public ResponseEntity<List<BollywoodHard>> saveBollywoodHard(@RequestBody List<BollywoodHard> bollywoodHard) {
+		 List<BollywoodHard> saveBollywoodHard = bollywoodHardRepository.saveAll(bollywoodHard);
 		 return ResponseEntity.status(HttpStatus.CREATED).body(saveBollywoodHard);
 	}
 	
