@@ -27,6 +27,7 @@ public class SecurityConfig {
                                 "/bollywood/**",
                                 "/tollywood/**",
                                 "/kollywood/**",
+                                "/actuator/health",
                                 "/",
                                 "/index.html",
                                 "/css/**").permitAll()
