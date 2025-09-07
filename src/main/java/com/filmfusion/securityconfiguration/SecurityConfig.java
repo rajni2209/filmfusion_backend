@@ -24,6 +24,7 @@ public class SecurityConfig {
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.GET,
+                        		"/health",
                                 "/bollywood/**",
                                 "/tollywood/**",
                                 "/kollywood/**",
