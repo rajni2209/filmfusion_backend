@@ -13,48 +13,49 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.List;
 
-
-
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
 
-	@Bean
-	public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
-	    httpSecurity
-	        .csrf(csrf -> csrf.disable())
-	        .cors(cors -> cors.configurationSource(corsConfigurationSource()))
-	        .authorizeHttpRequests(auth -> auth
-	            .requestMatchers(HttpMethod.GET,
-	                "/health",
-	                "/bollywood/**",
-	                "/tollywood/**",
-	                "/kollywood/**",
-	                "/actuator/health",
-	                "/",
-	                "/index.html",
-	                "/css/**").permitAll()
-	            .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll() // allow CORS preflight
-	            .anyRequest().authenticated()
-	        )
-	        .httpBasic(basic -> basic.disable()); // disable browser login popup
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
+        httpSecurity
+            .csrf(csrf -> csrf.disable())
+            .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+            .authorizeHttpRequests(auth -> auth
+                // Allow GET requests for APIs & static resources
+                .requestMatchers(HttpMethod.GET,
+                    "/health",
+                    "/bollywood/**",
+                    "/tollywood/**",
+                    "/kollywood/**",
+                    "/actuator/health",
+                    "/",
+                    "/index.html",
+                    "/css/**",
+                    "/js/**",
+                    "/images/**").permitAll()
+                // Allow OPTIONS for CORS preflight
+                .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                // All other requests require authentication
+                .anyRequest().authenticated()
+            )
+            .httpBasic(basic -> basic.disable()); // disable browser login popup
 
-	    return httpSecurity.build();
-	}
+        return httpSecurity.build();
+    }
 
-
-    // ✅ Allow all origins (*)
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
 
-        // Allow ALL origins
+        // Allow all origins
         config.setAllowedOriginPatterns(List.of("*"));
-
+        // Allow main HTTP methods
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        // Allow all headers
         config.setAllowedHeaders(List.of("*"));
-
-        // If you don’t need cookies/Authorization headers, keep false
+        // If frontend sends cookies or auth headers, set true
         config.setAllowCredentials(false);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
