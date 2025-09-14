@@ -13,30 +13,35 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.List;
 
+
+
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
 
-    @Bean
-    public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity
-                .csrf(csrf -> csrf.disable())
-                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(HttpMethod.GET,
-                        		"/health",
-                                "/bollywood/**",
-                                "/tollywood/**",
-                                "/kollywood/**",
-                                "/actuator/health",
-                                "/",
-                                "/index.html",
-                                "/css/**").permitAll()
-                        .anyRequest().authenticated()
-                )
-                .httpBasic();
-        return httpSecurity.build();
-    }
+	@Bean
+	public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
+	    httpSecurity
+	        .csrf(csrf -> csrf.disable())
+	        .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+	        .authorizeHttpRequests(auth -> auth
+	            .requestMatchers(HttpMethod.GET,
+	                "/health",
+	                "/bollywood/**",
+	                "/tollywood/**",
+	                "/kollywood/**",
+	                "/actuator/health",
+	                "/",
+	                "/index.html",
+	                "/css/**").permitAll()
+	            .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll() // allow CORS preflight
+	            .anyRequest().authenticated()
+	        )
+	        .httpBasic(basic -> basic.disable()); // disable browser login popup
+
+	    return httpSecurity.build();
+	}
+
 
     // ✅ Allow all origins (*)
     @Bean
