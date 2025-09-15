@@ -37,8 +37,8 @@ public class SecurityConfig {
                     "/kollywood/**"
                 ).permitAll()
 
-                // Allow OPTIONS (CORS preflight)
-//                .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                // Allow OPTIONS for CORS preflight
+                .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 
                 // Secure modifying methods
                 .requestMatchers(HttpMethod.POST, "/**").authenticated()
@@ -48,7 +48,9 @@ public class SecurityConfig {
                 // Deny everything else
                 .anyRequest().denyAll()
             )
-            // Enable HTTP Basic for now (so you can test secured endpoints)
+            // Enable anonymous access for GET requests
+            .anonymous(Customizer.withDefaults())
+            // Enable HTTP Basic for POST/PUT/DELETE
             .httpBasic(Customizer.withDefaults());
 
         return http.build();
@@ -57,9 +59,20 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOriginPatterns(List.of("*")); // allow all origins
+
+        // Allowed origins: Vercel frontend + localhost for dev
+        config.setAllowedOriginPatterns(List.of(
+            "http://localhost:3000",
+            "http://localhost:8080",
+            "https://filmfusion-kohl.vercel.app" // replace with your Vercel domain
+            
+        ));
+
+        // Allowed HTTP methods
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        // Allowed headers
         config.setAllowedHeaders(List.of("*"));
+        // Allow credentials (cookies / auth headers)
         config.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
