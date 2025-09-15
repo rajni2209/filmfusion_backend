@@ -50,12 +50,7 @@ public class SecurityConfig {
         CorsConfiguration config = new CorsConfiguration();
 
         // Explicitly allow dev & prod origins
-        config.setAllowedOrigins(List.of(
-            "http://localhost:3000",               // your local frontend
-            "http://localhost:8080",               // local backend test
-            "https://filmfusion-backend-bnwi.onrender.com" // deployed backend
-        ));
-
+        config.setAllowedOriginPatterns(List.of("*"));
         // Allow main HTTP methods
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         // Allow all headers
