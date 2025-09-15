@@ -24,33 +24,33 @@ public class SecurityConfig {
             .cors(cors -> cors.configurationSource(corsConfigurationSource()))
             .authorizeHttpRequests(auth -> auth
                 // Public GET endpoints
-                .requestMatchers(HttpMethod.GET,
-                    "/",
-                    "/health",
-                    "/actuator/health",
-                    "/index.html",
-                    "/css/**",
-                    "/js/**",
-                    "/images/**",
-                    "/bollywood/**",
-                    "/tollywood/**",
+                .requestMatchers(HttpMethod.GET, 
+                    "/", 
+                    "/health", 
+                    "/actuator/health", 
+                    "/index.html", 
+                    "/css/**", 
+                    "/js/**", 
+                    "/images/**", 
+                    "/bollywood/**", 
+                    "/tollywood/**", 
                     "/kollywood/**"
                 ).permitAll()
-
+                
                 // Allow OPTIONS for CORS preflight
                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-
+                
                 // Secure modifying methods
                 .requestMatchers(HttpMethod.POST, "/**").authenticated()
                 .requestMatchers(HttpMethod.PUT, "/**").authenticated()
                 .requestMatchers(HttpMethod.DELETE, "/**").authenticated()
-
-                // Deny everything else
+                
+                // Deny anything else
                 .anyRequest().denyAll()
             )
-            // Enable anonymous access for GET requests
+            // Allow anonymous access for GET requests
             .anonymous(Customizer.withDefaults())
-            // Enable HTTP Basic for POST/PUT/DELETE
+            // Enable HTTP Basic for secured requests
             .httpBasic(Customizer.withDefaults());
 
         return http.build();
@@ -59,15 +59,14 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-
-        // Allowed origins: Vercel frontend + localhost for dev
+        
+        // Allowed origins
         config.setAllowedOriginPatterns(List.of(
-            "http://localhost:3000",
-            "http://localhost:8080",
-            "https://filmfusion-kohl.vercel.app" // replace with your Vercel domain
-            
+            "http://localhost:3000",               // local frontend dev
+            "http://localhost:8080",               // local backend dev
+            "https://filmfusion-kohl.vercel.app"   // deployed frontend
         ));
-
+        
         // Allowed HTTP methods
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         // Allowed headers
