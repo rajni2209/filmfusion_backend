@@ -59,14 +59,10 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-        
-        // Allowed origins
-        config.setAllowedOriginPatterns(List.of(
-            "http://localhost:3000",               // local frontend dev
-            "http://localhost:8080",               // local backend dev
-            "https://filmfusion-kohl.vercel.app"   // deployed frontend
-        ));
-        
+
+        // Allow all origins
+        config.setAllowedOriginPatterns(List.of("*"));
+
         // Allowed HTTP methods
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         // Allowed headers
