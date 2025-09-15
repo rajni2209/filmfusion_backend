@@ -25,12 +25,12 @@ public class SecurityConfig {
             .authorizeHttpRequests(auth -> auth
                 // Allow GET requests for APIs & static resources
                 .requestMatchers(HttpMethod.GET,
+                    "/",
                     "/health",
                     "/bollywood/**",
                     "/tollywood/**",
                     "/kollywood/**",
                     "/actuator/health",
-                    "/",
                     "/index.html",
                     "/css/**",
                     "/js/**",
@@ -49,14 +49,19 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
 
-        // Allow all origins
-        config.setAllowedOriginPatterns(List.of("*"));
+        // Explicitly allow dev & prod origins
+        config.setAllowedOrigins(List.of(
+            "http://localhost:3000",               // your local frontend
+            "http://localhost:8080",               // local backend test
+            "https://filmfusion-backend-bnwi.onrender.com" // deployed backend
+        ));
+
         // Allow main HTTP methods
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         // Allow all headers
         config.setAllowedHeaders(List.of("*"));
-        // If frontend sends cookies or auth headers, set true
-        config.setAllowCredentials(false);
+        // Allow credentials if needed (cookies, Authorization header, etc.)
+        config.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", config);
